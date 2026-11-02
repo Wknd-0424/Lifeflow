@@ -10,7 +10,7 @@ Blood inventory · Expiry tracking · Hospital requests
 ![Node.js](https://img.shields.io/badge/Node.js-24%2B-43853d?style=flat-square)
 ![SQLite](https://img.shields.io/badge/Database-SQLite-336791?style=flat-square)
 ![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-f0db4f?style=flat-square)
-![Dependencies](https://img.shields.io/badge/Runtime_dependencies-Zero-c53d47?style=flat-square)
+![Hosting](https://img.shields.io/badge/Hosting-Vercel_%2B_Supabase-c53d47?style=flat-square)
 
 [Quick start](#run-locally) · [Features](#features-and-business-rules) · [Lab report](docs/LAB_REPORT.md) · [API](#api)
 
@@ -30,10 +30,10 @@ A complete B.Tech 3rd-year Web Technology lab project. Tracks blood-group invent
    git clone https://github.com/Wknd-0424/Lifeflow.git
    cd Lifeflow
    ```
-3. Run `npm start`.
+3. Run `npm ci`, then `npm start`.
 4. Open **http://localhost:3000** in your browser.
 
-No npm packages, database server, API keys or internet connection are needed. Node may print an experimental SQLite warning; the application still runs normally. To change the port in PowerShell: `$env:PORT=3001` then `npm start`.
+Local mode uses SQLite and needs no database server or API keys. Cloud mode uses the `pg` package to connect to Supabase. Node may print an experimental SQLite warning; the application still runs normally. To change the port in PowerShell: `$env:PORT=3001` then `npm start`.
 
 The database is created at `data/bloodbank.sqlite`. The first launch loads fictional donation batches and hospital requests relative to the current date. Records persist after restarting. To start fresh, stop the server and rename the `data` folder before restarting. Do not use real patient information in this demonstration.
 
@@ -116,3 +116,15 @@ This is a local educational inventory application, with one lab administrator wo
 The included Blueprint provisions a Node.js web service with a 1 GB persistent disk for SQLite. This uses paid Render resources; review the displayed cost before deploying. The server uses `HOST=0.0.0.0`, Render's `PORT`, and `/var/data/bloodbank.sqlite`. The `/health` route is used for health checks.
 
 This deployment is a public educational demo: anyone with its URL can modify the sample inventory. Use fictional records only.
+
+## Deploy on Vercel + Supabase
+
+1. Create a dedicated Supabase project and run `supabase/schema.sql` in its SQL editor. This creates tables and fictional demo records; repeated setup does not duplicate the seed.
+2. In Supabase **Connect**, copy the transaction pooler PostgreSQL URI (port 6543). Insert the database password and keep `sslmode=require` in the connection string.
+3. Import this GitHub repository into Vercel. Framework preset: **Other**. The tracked `vercel.json` configures the `public` directory and Node.js API.
+4. Add the pooler URI as a sensitive server environment variable named `DATABASE_URL` for Production (and Preview only if desired). Never commit it or add it to browser JavaScript.
+5. Deploy. Check `/api/state` and the dashboard, then create a fictional donation and request to verify persistence.
+
+The cloud API uses `lib/postgres-store.js`. The local `npm start` command continues to use SQLite, so local and cloud data are separate. Database allocation is transactional and serializes concurrent fulfillment. Supabase's public Data API is blocked by RLS; access is through the Vercel backend. The website itself is a shared educational demo without user authentication, so visitors can modify demo inventory. Do not enter real medical or personal records.
+
+`npm test` covers the local allocation rules and cloud input validation. Real Supabase connection and concurrent allocation still need deployment integration verification.
