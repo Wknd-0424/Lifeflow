@@ -7,6 +7,8 @@
 
 Blood inventory · Expiry tracking · Hospital requests
 
+**[Open LifeFlow — Live Demo](https://lifeflow-eta.vercel.app/)**
+
 ![Node.js](https://img.shields.io/badge/Node.js-24%2B-43853d?style=flat-square)
 ![SQLite](https://img.shields.io/badge/Database-SQLite-336791?style=flat-square)
 ![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-f0db4f?style=flat-square)
@@ -127,4 +129,4 @@ This deployment is a public educational demo: anyone with its URL can modify the
 
 The cloud API uses `lib/postgres-store.js`. The local `npm start` command continues to use SQLite, so local and cloud data are separate. Database allocation is transactional and serializes concurrent fulfillment. Supabase's public Data API is blocked by RLS; access is through the Vercel backend. The website itself is a shared educational demo without user authentication, so visitors can modify demo inventory. Do not enter real medical or personal records.
 
-`npm test` covers the local allocation rules and cloud input validation. Real Supabase connection and concurrent allocation still need deployment integration verification.
+`npm test` covers the local allocation rules and cloud input validation. Live deployment verification passed: Supabase reads, donation creation, hospital requests, concurrent fulfillment, duplicate-dispatch prevention, and persistent rereads.
