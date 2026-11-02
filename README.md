@@ -108,3 +108,11 @@ Run `npm test`. Tests cover FEFO allocation, expired and incompatible stock excl
 ## Scope
 
 This is a local educational inventory application, with one lab administrator workspace. Authentication, multi-user roles, blood screening, compatibility assessment, clinical crossmatching and real hospital integrations are outside its scope. It is not a clinical transfusion system. Expiry dates must be entered from the relevant bag label; the app does not determine shelf life.
+
+## Deploy on Render
+
+[Deploy to Render](https://render.com/deploy?repo=https://github.com/Wknd-0424/Lifeflow)
+
+The included Blueprint provisions a Node.js web service with a 1 GB persistent disk for SQLite. This uses paid Render resources; review the displayed cost before deploying. The server uses `HOST=0.0.0.0`, Render's `PORT`, and `/var/data/bloodbank.sqlite`. The `/health` route is used for health checks.
+
+This deployment is a public educational demo: anyone with its URL can modify the sample inventory. Use fictional records only.

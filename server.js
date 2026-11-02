@@ -11,6 +11,7 @@ const server = http.createServer(async(req,res)=>{
   const url = new URL(req.url,'http://localhost');
   const json=(status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
   try {
+    if(req.method==='GET' && url.pathname==='/health') return json(200,{status:'ok'});
     if(req.method==='GET' && url.pathname==='/api/state') return json(200,store.snapshot());
     if(req.method==='POST' && url.pathname.startsWith('/api/')) {
       let raw=''; for await (const chunk of req) {raw+=chunk; if(raw.length>16000) { const e=new Error('Request is too large.');e.status=413;throw e; }}
@@ -25,5 +26,7 @@ const server = http.createServer(async(req,res)=>{
     json(404,{error:'Not found.'});
   } catch(e) { if(!e.status) console.error(e);json(e.status||500,{error:e.status?e.message:'Something went wrong. Please try again.'}); }
 });
-server.listen(process.env.PORT||3000,'127.0.0.1',()=>console.log(`LifeFlow is running at http://localhost:${server.address().port}`));
-process.on('SIGINT',()=>server.close(()=>{store.close();process.exit();}));
+server.listen(process.env.PORT||3000,process.env.HOST || '127.0.0.1',()=>console.log(`LifeFlow is running at http://localhost:${server.address().port}`));
+const shutdown=()=>server.close(()=>{store.close();process.exit();});
+process.on('SIGINT',shutdown);
+process.on('SIGTERM',shutdown);
