@@ -1,0 +1,8 @@
+{
+  "name": "lifeflow-blood-bank",
+  "version": "1.0.0",
+  "private": true,
+  "description": "B.Tech Web Technology lab project — Online Blood Bank Inventory Management System",
+  "scripts": { "start": "node server.js", "dev": "node --watch server.js", "test": "node --test" },
+  "engines": { "node": ">=24" }
+}
