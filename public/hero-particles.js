@@ -167,5 +167,5 @@ function syncHero() {
   activeCanvas = canvas;
   dispose = canvas ? mountParticleRibbon(canvas, canvas.parentElement) : undefined;
 }
-new MutationObserver(syncHero).observe(main, { childList: true });
+new MutationObserver(syncHero).observe(main, { childList: true, subtree: true });
 syncHero();
