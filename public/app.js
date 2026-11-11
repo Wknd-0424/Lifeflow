@@ -11,6 +11,10 @@ const status = b => b.units === 0 ? 'Depleted' : b.expires < state.today ? 'Expi
 const empty = text => `<div class="empty">${text}</div>`;
 async function api(url, body) {
   const response = await fetch(url, body === undefined ? {} : { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
+  if (response.status === 401) {
+    location.replace('/login.html');
+    throw new Error('Sign in required.');
+  }
   const result = await response.json();
   if (!response.ok) throw new Error(result.error || 'Unable to reach the server.');
   return result;
@@ -167,3 +171,12 @@ document.addEventListener('pointerout', (event) => {
 document.addEventListener('pointercancel', clearSpotlight);
 window.addEventListener('blur', clearSpotlight);
 spotlightPreference.addEventListener('change', clearSpotlight);
+
+document.querySelector('#sign-out').addEventListener('click', async () => {
+  try {
+    await api('/api/logout', {});
+    location.replace('/login.html');
+  } catch (error) {
+    alert(error.message);
+  }
+});
