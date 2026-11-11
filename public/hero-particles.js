@@ -34,7 +34,7 @@ function mountParticleRibbon(canvas, hero) {
       pixelRatio: { value: 1 },
       crimson: { value: new THREE.Color('#e11d48') },
       ruby: { value: new THREE.Color('#fb7185') },
-      highlight: { value: new THREE.Color('#ffe7ed') }
+      deepRuby: { value: new THREE.Color('#9f1239') }
     },
     vertexShader: `
       uniform float time, pixelRatio;
@@ -58,12 +58,12 @@ function mountParticleRibbon(canvas, hero) {
       }
     `,
     fragmentShader: `
-      uniform vec3 crimson, ruby, highlight;
+      uniform vec3 deepRuby, crimson, ruby;
       varying float vTone;
       void main() {
         float glow = 1.0 - smoothstep(.05, .5, distance(gl_PointCoord, vec2(.5)));
-        vec3 color = mix(crimson, ruby, vTone);
-        color = mix(color, highlight, smoothstep(.94, 1.0, vTone) * .55);
+        vec3 color = mix(deepRuby, crimson, smoothstep(0.0, .72, vTone));
+        color = mix(color, ruby, smoothstep(.55, 1.0, vTone));
         gl_FragColor = vec4(color, glow * mix(.12, .42, vTone));
         #include <colorspace_fragment>
       }
@@ -72,6 +72,7 @@ function mountParticleRibbon(canvas, hero) {
 
   const ribbon = new THREE.Points(geometry, material);
   ribbon.rotation.z = -0.28;
+  ribbon.position.x = 0.16;
   const scene = new THREE.Scene();
   scene.add(ribbon);
   const camera = new THREE.OrthographicCamera(-2, 2, 1, -1, 0.1, 30);
