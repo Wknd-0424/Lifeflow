@@ -248,3 +248,51 @@ body {
   .dashboard-feature .dashboard-hero { min-height: 290px; }
   .dashboard-feature .hero-particles { width: 90%; }
 }
+
+body {
+  background: radial-gradient(ellipse at 90% 0%, #3a2416, transparent 42%), #100e10;
+  border-color: #c985483b;
+}
+
+.command-nav.sidebar {
+  flex-direction: row;
+  align-items: center;
+  gap: clamp(8px, 2vw, 26px);
+  padding: 8px clamp(10px, 2vw, 26px);
+  background: #171210f5;
+  border-bottom-color: #d999572e;
+}
+
+.command-nav nav { flex: 1 1 auto; scrollbar-width: thin; }
+.command-nav .nav-item { min-height: 38px; padding: 7px 11px; }
+.command-nav .nav-item.active { background: #d48d3826; border-color: #d48d385c; }
+.command-nav .topbar-right { flex: 0 0 auto; }
+.command-nav .brand-icon {
+  background: radial-gradient(circle, #e639464d, #411b23 75%);
+  color: #ffd5d9;
+}
+.command-nav .brand { gap: 8px; }
+.topbar { height: 36px; }
+.dashboard-feature .dashboard-hero {
+  background: radial-gradient(ellipse at 87% 50%, #61301670, transparent 65%),
+    linear-gradient(115deg, #140d10, #21140f);
+  border-color: #ce8c4b40;
+}
+
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px #e6394666); }
+  50% { transform: scale(1.04); filter: drop-shadow(0 0 8px #e63946b3); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-logo-pulse { animation: logo-pulse 3s ease-in-out infinite; }
+}
+
+@media (max-width: 1100px) {
+  .command-nav #current-date, .command-nav .live { display: none; }
+}
+
+@media (max-width: 650px) {
+  .command-nav .brand small { display: none; }
+  .command-nav .brand-icon, .command-nav .avatar { width: 32px; height: 32px; }
+}
