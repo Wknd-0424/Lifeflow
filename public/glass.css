@@ -88,3 +88,78 @@ dialog{background:linear-gradient(135deg,#35464bee,#442e36ed);border-color:#ffff
     opacity: .45;
   }
 }
+
+:root {
+  --vital-accent: #E63946;
+  --vital-urgent: #FF1E42;
+  --vital-warning: #FFB703;
+  --vital-success: #10B981;
+}
+
+.glass-card, .panel, .stat, .glass-widget, .blood-card, .blood-card.low {
+  background: rgba(18, 19, 26, .75);
+  border: 1px solid rgba(255, 255, 255, .08);
+  backdrop-filter: blur(16px);
+}
+
+.primary, .primary:hover {
+  background: var(--vital-accent);
+  color: #18080d;
+}
+
+.primary:hover { box-shadow: 0 0 18px #e6394640; }
+.pill.urgent, .pill.expired { background: #ff1e4230; color: #ffd6de; }
+.pill.expiring, .expiry-days { color: var(--vital-warning); }
+.pill.available, .pill.fulfilled, .stock-status { color: var(--vital-success); }
+.low .stock-status { color: var(--vital-warning); }
+.stock-meter::-webkit-progress-value { background: var(--vital-success); }
+.low .stock-meter::-webkit-progress-value { background: var(--vital-warning); }
+.stock-meter { accent-color: var(--vital-success); }
+.low .stock-meter { accent-color: var(--vital-warning); }
+
+.blood-card { position: relative; isolation: isolate; overflow: hidden; }
+.stock-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 104%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.animate-vital { display: inline-flex; align-items: center; gap: 6px; }
+.urgent-dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--vital-urgent);
+}
+
+@keyframes vital-pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 #ff1e4200; }
+  50% { transform: scale(1.03); box-shadow: 0 0 12px #ff1e4250; }
+}
+
+@keyframes liquid-wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3%); }
+}
+
+@keyframes urgent-ping {
+  from { transform: scale(1); opacity: .8; }
+  to { transform: scale(2.3); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-vital { animation: vital-pulse 2s cubic-bezier(.4, 0, .6, 1) infinite; }
+  .stock-wave { animation: liquid-wave 4s ease-in-out infinite; }
+  .urgent-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: urgent-ping 2s ease-out infinite;
+  }
+}

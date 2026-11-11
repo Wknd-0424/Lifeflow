@@ -51,12 +51,20 @@ function updateChecker() {
   $('#checker-result').classList.toggle('shortfall',!ready);
   $('#checker-result').textContent=!valid?'Enter a whole number from 1 to 1000.':ready?`✓ ${units} units available · Ready to request`:`↗ ${units} available · ${checkerUnits-units} more needed`;
 }
+const stockCapacity = 40; // Dashboard display capacity per blood group.
+
+function stockWave(units, index) {
+  if (!units) return "";
+  const level = Math.min(units / stockCapacity, 1) * 100;
+  return `<svg class="stock-wave" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none"><defs><linearGradient id="stock-fill-${index}" x2="0" y2="1"><stop stop-color="#FF2A54" stop-opacity=".10"/><stop offset="1" stop-color="#E63946" stop-opacity=".30"/></linearGradient></defs><path transform="translate(0 ${100 - level})" fill="url(#stock-fill-${index})" d="M0 2 Q25 -3 50 2 T100 2 V104 H0Z"/></svg>`;
+}
+
 function stockPanel() {
-  return `<section class="panel"><div class="panel-header"><div><h2>Blood stock at a glance</h2><p>Available, unexpired units across all blood groups</p></div><div class="legend"><span><i class="dot"></i> Sufficient</span><span><i class="dot low"></i> Low stock &lt; 10</span></div></div><div class="blood-grid">${state.stock.map(s=>`<div class="blood-card ${s.units<10?'low':''}"><div class="blood-type"><strong>${s.group}</strong></div><div class="number">${s.units}</div><div class="unit-label">units available</div><progress class="stock-meter" value="${s.units}" max="40" aria-label="${s.group} stock level">${s.units}</progress><div class="stock-status">${s.units===0?'Out of stock':s.units<10?'Low stock':'Sufficient stock'}</div></div>`).join('')}</div></section>`;
+  return `<section class="panel"><div class="panel-header"><div><h2>Blood stock at a glance</h2><p>Available, unexpired units across all blood groups</p></div><div class="legend"><span><i class="dot"></i> Sufficient</span><span><i class="dot low"></i> Low stock &lt; 10</span></div></div><div class="blood-grid">${state.stock.map((s,index)=>`<div class="blood-card ${s.units<10?'low':''}">${stockWave(s.units,index)}<div class="blood-type"><strong>${s.group}</strong></div><div class="number">${s.units}</div><div class="unit-label">units available</div><progress class="stock-meter" value="${s.units}" max="${stockCapacity}" aria-label="${s.group} stock level">${s.units}</progress><div class="stock-status">${s.units===0?'Out of stock':s.units<10?'Low stock':'Sufficient stock'}</div></div>`).join('')}</div></section>`;
 }
 function requestTable(requests, compact = false) {
   if (!requests.length) return empty('No requests match this view.');
-  return `<div class="table-wrap"><table><thead><tr><th>HOSPITAL / REQUEST</th><th>GROUP</th><th>UNITS</th><th>PRIORITY</th>${compact?'':'<th>STATUS</th>'}<th>ACTION</th></tr></thead><tbody>${requests.map(r=>`<tr><td><div class="hospital-name">${escape(r.hospital)}</div><div class="cell-sub">REQ-${String(r.id).padStart(3,'0')} · ${escape(r.contact)}</div></td><td><span class="group-label">${r.blood_group}</span></td><td>${r.units}</td><td>${pill(r.priority)}</td>${compact?'':`<td>${pill(r.status)}</td>`}<td>${r.status==='Pending'?`<button class="table-action" data-fulfill="${r.id}">Fulfill ↗</button>${compact?'':`<button class="table-action cancel" data-cancel="${r.id}">Cancel</button>`}`:'<span class="cell-sub">Processed</span>'}</td></tr>`).join('')}</tbody></table></div>`;
+  return `<div class="table-wrap"><table><thead><tr><th>HOSPITAL / REQUEST</th><th>GROUP</th><th>UNITS</th><th>PRIORITY</th>${compact?'':'<th>STATUS</th>'}<th>ACTION</th></tr></thead><tbody>${requests.map(r=>`<tr><td><div class="hospital-name">${escape(r.hospital)}</div><div class="cell-sub">REQ-${String(r.id).padStart(3,'0')} · ${escape(r.contact)}</div></td><td><span class="group-label">${r.blood_group}</span></td><td>${r.units}</td><td>${r.priority === 'Urgent' && r.status === 'Pending' ? '<span class="pill urgent animate-vital"><i class="urgent-dot" aria-hidden="true"></i>Urgent</span>' : pill(r.priority)}</td>${compact?'':`<td>${pill(r.status)}</td>`}<td>${r.status==='Pending'?`<button class="table-action" data-fulfill="${r.id}">Fulfill ↗</button>${compact?'':`<button class="table-action cancel" data-cancel="${r.id}">Cancel</button>`}`:'<span class="cell-sub">Processed</span>'}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function expiryPanel() {
   const expiring=state.batches.filter(b=>b.units>0 && days(b.expires)>=0 && days(b.expires)<=7).slice(0,4);
