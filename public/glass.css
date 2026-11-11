@@ -22,3 +22,27 @@ body::before{width:430px;height:430px;right:-160px;top:240px;border:0;background
 dialog{background:linear-gradient(135deg,#35464bee,#442e36ed);border-color:#ffffff44;border-radius:30px;color:#f6f0eb;backdrop-filter:blur(36px)}dialog::backdrop{background:#08182260;backdrop-filter:blur(12px)}.icon-button{background:#ffffff15;border-color:#ffffff30;color:#fff}.field label,.form-hint{color:#d1d3d4}.modal-footer{border-color:#ffffff20}.form-error{color:#ffc0c7}input::placeholder{color:#b6bec5}.button{border-radius:24px}.widget-link{min-height:40px}.health-ring{filter:drop-shadow(0 8px 13px #06131f33)}
 @media(max-width:720px){.sidebar{background:linear-gradient(130deg,#253943e8,#392c36e0);border-radius:24px}.stat,.panel,.glass-widget{border-radius:24px}.blood-card{border-radius:18px}.button{border-radius:23px}.nav-item{border-radius:20px}.stat-label{color:#ccd2d5}}
 @supports not (backdrop-filter:blur(1px)){.stat,.panel,.glass-widget,dialog{background:#30414b}.sidebar{background:#233640}.topbar{background:transparent}}
+
+@media (any-hover: hover) and (prefers-reduced-motion: no-preference) {
+  :is(.stat, .panel, .glass-widget, .blood-card) {
+    position: relative;
+  }
+
+  :is(.stat, .panel, .glass-widget, .blood-card)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      circle 220px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      #ffd0d32e, #c53d4712 55%, transparent
+    );
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  [data-spotlight]::before {
+    opacity: 1;
+  }
+}

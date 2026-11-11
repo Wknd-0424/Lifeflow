@@ -124,3 +124,38 @@ $('#entry-form').addEventListener('submit',async e=>{
 $('#current-date').textContent=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
 async function initialize(){try{state=await api('/api/state');render();}catch(err){$('#main').innerHTML=empty(`${escape(err.message)} <button class="text-button" id="retry">Try again</button>`);$('#retry').onclick=initialize;}}
 initialize();
+
+const spotlightCards = '.stat, .panel, .glass-widget, .blood-card';
+const spotlightPreference = matchMedia('(any-hover: hover) and (prefers-reduced-motion: no-preference)');
+let spotlightCard = null;
+
+function clearSpotlight() {
+  spotlightCard?.removeAttribute('data-spotlight');
+  spotlightCard = null;
+}
+
+document.addEventListener('pointermove', (event) => {
+  if (!spotlightPreference.matches || event.pointerType === 'touch') return;
+
+  const card = event.target.closest(spotlightCards);
+  if (card !== spotlightCard) {
+    clearSpotlight();
+    spotlightCard = card;
+  }
+  if (!card) return;
+
+  const bounds = card.getBoundingClientRect();
+  card.style.setProperty('--spotlight-x', `${event.clientX - bounds.left}px`);
+  card.style.setProperty('--spotlight-y', `${event.clientY - bounds.top}px`);
+  card.setAttribute('data-spotlight', '');
+});
+
+document.addEventListener('pointerout', (event) => {
+  if (!(event.relatedTarget instanceof Element) ||
+      event.relatedTarget.closest(spotlightCards) !== spotlightCard) {
+    clearSpotlight();
+  }
+});
+document.addEventListener('pointercancel', clearSpotlight);
+window.addEventListener('blur', clearSpotlight);
+spotlightPreference.addEventListener('change', clearSpotlight);
