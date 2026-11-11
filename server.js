@@ -1,10 +1,9 @@
-const { authorize } = require('./lib/admin-auth');
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { createStore } = require('./lib/store');
 const store = createStore(process.env.DB_PATH || path.join(__dirname,'data','bloodbank.sqlite'));
-const assets = { '/':'index.html', '/index.html':'index.html', '/login.html':'login.html', '/login.js':'login.js', '/lifeflow-mark.svg':'lifeflow-mark.svg', '/app.js':'app.js', '/swarm-cursor.js':'swarm-cursor.js', '/styles.css':'styles.css', '/glass.css':'glass.css', '/hero-particles.js':'hero-particles.js', '/vendor/three.module.js':'vendor/three.module.js', '/vendor/three.core.js':'vendor/three.core.js' };
+const assets = { '/':'index.html', '/index.html':'index.html', '/lifeflow-mark.svg':'lifeflow-mark.svg', '/app.js':'app.js', '/swarm-cursor.js':'swarm-cursor.js', '/styles.css':'styles.css', '/glass.css':'glass.css', '/hero-particles.js':'hero-particles.js', '/vendor/three.module.js':'vendor/three.module.js', '/vendor/three.core.js':'vendor/three.core.js' };
 const mime = { '.svg':'image/svg+xml', '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8' };
 const server = http.createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');
@@ -13,12 +12,11 @@ const server = http.createServer(async(req,res)=>{
   const json=(status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
   try {
     if(req.method==='GET' && url.pathname==='/health') return json(200,{status:'ok'});
-    if(req.method==='GET' && url.pathname==='/api/state') { if (!authorize(req,res,url.pathname,json)) return; return json(200,store.snapshot()); }
+    if(req.method==='GET' && url.pathname==='/api/state') return json(200,store.snapshot());
     if(req.method==='POST' && url.pathname.startsWith('/api/')) {
       let raw=''; for await (const chunk of req) {raw+=chunk; if(raw.length>16000) { const e=new Error('Request is too large.');e.status=413;throw e; }}
       let body;try{body=JSON.parse(raw||'{}');}catch{const e=new Error('Invalid JSON.');e.status=400;throw e;}
       if (!body || typeof body!=='object' || Array.isArray(body)) return json(400,{error:'Invalid request body.'});
-      if (!authorize(req,res,url.pathname,json,{ body })) return;
       if(url.pathname==='/api/batches') store.addBatch(body);
       else if(url.pathname==='/api/requests') store.addRequest(body);
       else { const match=url.pathname.match(/^\/api\/requests\/(\d+)\/(fulfill|cancel)$/); if(!match) return json(404,{error:'Not found.'});store.transition(Number(match[1]),match[2]); }

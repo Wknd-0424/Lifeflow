@@ -34,7 +34,7 @@ A complete B.Tech 3rd-year Web Technology lab project. Tracks blood-group invent
    git clone https://github.com/Wknd-0424/Lifeflow.git
    cd Lifeflow
    ```
-3. Run `npm ci`. Set `LIFEFLOW_ADMIN_PASSWORD` in the server environment to a unique password of at least 20 characters, then run `npm start`.
+3. Run `npm ci`, then `npm start`.
 4. Open **http://localhost:3000** in your browser.
 
 Local mode uses SQLite and needs no database server or API keys. Cloud mode uses the `pg` package to connect to Supabase. Node may print an experimental SQLite warning; the application still runs normally. To change the port in PowerShell: `$env:PORT=3001` then `npm start`.
@@ -129,7 +129,7 @@ This is a local educational inventory application, with one lab administrator wo
 
 The included Blueprint provisions a Node.js web service with a 1 GB persistent disk for SQLite. This uses paid Render resources; review the displayed cost before deploying. The server uses `HOST=0.0.0.0`, Render's `PORT`, and `/var/data/bloodbank.sqlite`. The `/health` route is used for health checks.
 
-Set `LIFEFLOW_ADMIN_PASSWORD` as a secret environment variable before signing in. Use fictional records only.
+This deployment is a public educational demo: anyone with its URL can modify the sample inventory. Use fictional records only.
 
 ## Deploy on Vercel + Supabase
 
@@ -137,9 +137,9 @@ Set `LIFEFLOW_ADMIN_PASSWORD` as a secret environment variable before signing in
 2. In Supabase **Connect**, copy the transaction pooler PostgreSQL URI (port 6543). Insert the database password and keep `sslmode=require` in the connection string.
 3. Import this GitHub repository into Vercel. Framework preset: **Other**. The tracked `vercel.json` configures the `public` directory and Node.js API.
 4. Add the pooler URI as a sensitive server environment variable named `DATABASE_URL` for Production (and Preview only if desired). Never commit it or add it to browser JavaScript.
-5. Add `LIFEFLOW_ADMIN_PASSWORD` as a sensitive Production environment variable. Choose a unique password of at least 20 characters. Deploy, sign in, and create fictional records to verify persistence.
+5. Deploy. Check `/api/state` and the dashboard, then create a fictional donation and request to verify persistence.
 
-The cloud API uses `lib/postgres-store.js`. The local `npm start` command continues to use SQLite, so local and cloud data are separate. Database allocation is transactional and serializes concurrent fulfillment. Supabase's public Data API is blocked by RLS; access is through the Vercel backend. The website uses a single admin password with an eight-hour session. To revoke all sessions, change the server password and redeploy. Do not enter real medical or personal records.
+The cloud API uses `lib/postgres-store.js`. The local `npm start` command continues to use SQLite, so local and cloud data are separate. Database allocation is transactional and serializes concurrent fulfillment. Supabase's public Data API is blocked by RLS; access is through the Vercel backend. The website itself is a shared educational demo without user authentication, so visitors can modify demo inventory. Do not enter real medical or personal records.
 
 `npm test` covers the local allocation rules and cloud input validation. Live deployment verification passed: Supabase reads, donation creation, hospital requests, concurrent fulfillment, duplicate-dispatch prevention, and persistent rereads.
 
