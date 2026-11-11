@@ -296,3 +296,49 @@ body {
   .command-nav .brand small { display: none; }
   .command-nav .brand-icon, .command-nav .avatar { width: 32px; height: 32px; }
 }
+
+/* Cinematic surfaces and semantic status colors. */
+html { background: #0b0806; }
+body {
+  background: radial-gradient(ellipse at 90% 0%, #392313, transparent 44%), #0b0806;
+}
+
+.glass-card, .panel, .stat, .glass-widget, .blood-card, .blood-card.low {
+  background: rgba(18, 19, 26, .75);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+
+.primary { background: #f59e0b; color: #170e06; }
+.primary:hover { background: #ffb544; box-shadow: 0 0 18px #f59e0b45; }
+.command-nav .brand-icon { background: #f59e0b20; color: #ffd491; }
+.table-action[data-fulfill] { color: #ffd491; }
+tr:has(.animate-vital.urgent) .table-action[data-fulfill] { color: #ff9cac; }
+
+.stat-label, .stat-note, .panel-header p, .unit-label, .legend,
+.cell-sub, .panel-footer, .widget-kicker, .subtitle, th {
+  color: #cbd5e1;
+}
+
+.stat-value, .blood-card .number, .health-ring strong {
+  color: #fff;
+  font-weight: 800;
+}
+
+.stock-status.pill { margin-top: 6px; white-space: normal; }
+.stock-status.sufficient { color: #a7f3d0; background: #10b98125; }
+.stock-status.low-stock { color: #fde09c; background: #f59e0b25; }
+.stock-status.out-of-stock, .pill.urgent {
+  color: #ffd6de;
+  background: #ff1e4233;
+  border-color: #ff1e425c;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .glass-card, .panel, .glass-widget { transition: box-shadow 200ms ease; }
+  .glass-card:hover, .panel:hover, .glass-widget:hover,
+  .stat:hover, .blood-card:hover {
+    box-shadow: 0 14px 32px #0006, inset 0 1px 0 #f59e0b24;
+  }
+}
