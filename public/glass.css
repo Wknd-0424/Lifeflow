@@ -35,14 +35,14 @@ dialog{background:linear-gradient(135deg,#35464bee,#442e36ed);border-color:#ffff
     border-radius: inherit;
     pointer-events: none;
     background: radial-gradient(
-      circle 220px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
-      #ffd0d32e, #c53d4712 55%, transparent
+      circle 270px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      #ffd0d378, #df61764d 36%, #c53d4724 62%, transparent
     );
     opacity: 0;
     transition: opacity 180ms ease;
   }
 
-  [data-spotlight]::before {
+  :is(.stat, .panel, .glass-widget, .blood-card)[data-spotlight]::before {
     opacity: 1;
   }
 }
