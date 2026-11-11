@@ -379,3 +379,8 @@ tr:has(.animate-vital.urgent) .table-action[data-fulfill] { color: #ff9cac; }
 @media (prefers-reduced-transparency: reduce) {
   .dashboard-liquid-surface[data-refract="false"] { background-color: #12131a; }
 }
+
+.dashboard-shortcuts { padding: 16px; }
+@media (max-width: 900px) {
+  .dashboard-shortcuts { order: -3; }
+}
