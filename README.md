@@ -21,7 +21,9 @@ Blood inventory · Expiry tracking · Hospital requests
 ---
 
 
-A complete B.Tech 3rd-year Web Technology lab project. Tracks blood-group inventory, batch expiry dates and hospital requests with a persistent SQLite database.
+A complete B.Tech 3rd-year Web Technology lab project. Tracks blood-group inventory, batch expiry dates and hospital requests with SQLite locally and Supabase PostgreSQL on Vercel.
+
+![LifeFlow dashboard](docs/images/dashboard.png)
 
 ## Run locally
 
@@ -84,11 +86,21 @@ public/index.html     Application shell and forms
 public/styles.css     Responsive dashboard design
 public/glass.css      Glass theme, dashboard widgets and device breakpoints
 public/app.js         Views, forms, API calls, filters and exports
+api/index.js          Vercel API entry point
 lib/store.js          Schema, seed data, validation and transactional allocation
+lib/postgres-store.js Cloud database adapter and transactional allocation
+lib/supabase-ca.crt   Trusted certificate for cloud database connections
 server.js             HTTP server and routes
 test/store.test.js    Core business-rule tests
+test/cloud.test.js    Cloud validation and configuration tests
+supabase/schema.sql   Cloud database schema and fictional seed records
 docs/LAB_REPORT.md    Submission-ready project write-up and viva questions
+docs/images/          Dashboard screenshot
 data/                 Generated database (ignored by Git)
+vercel.json           Primary cloud deployment configuration
+render.yaml           Optional alternative deployment with persistent SQLite
+package-lock.json     Reproducible dependency versions
+.github/workflows/    Automated test workflow
 ```
 
 ## API
@@ -130,3 +142,5 @@ This deployment is a public educational demo: anyone with its URL can modify the
 The cloud API uses `lib/postgres-store.js`. The local `npm start` command continues to use SQLite, so local and cloud data are separate. Database allocation is transactional and serializes concurrent fulfillment. Supabase's public Data API is blocked by RLS; access is through the Vercel backend. The website itself is a shared educational demo without user authentication, so visitors can modify demo inventory. Do not enter real medical or personal records.
 
 `npm test` covers the local allocation rules and cloud input validation. Live deployment verification passed: Supabase reads, donation creation, hospital requests, concurrent fulfillment, duplicate-dispatch prevention, and persistent rereads.
+
+[View all five output screenshots](docs/images/output-screenshots/).
