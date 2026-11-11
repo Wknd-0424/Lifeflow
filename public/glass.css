@@ -43,7 +43,7 @@ dialog{background:linear-gradient(135deg,#35464bee,#442e36ed);border-color:#ffff
   }
 
   :is(.stat, .panel, .glass-widget, .blood-card)[data-spotlight]::before {
-    opacity: 1;
+    opacity: 0.1;
   }
 }
 
