@@ -1,22 +1,10 @@
 import { createRoot, type Root } from "react-dom/client";
 import { LiquidGlass } from "./ui/liquid-glass";
 
-import { DashboardShortcuts } from "./dashboard-shortcuts.jsx";
-
 const selector = ".command-nav";
 const surfaces = new Map<Element, { host: HTMLDivElement; root: Root }>();
 
-let shortcutHost: Element | null = null;
-let shortcutRoot: Root | undefined;
-
 function syncSurfaces() {
-  const host = document.querySelector("#dashboard-shortcuts");
-  if (host !== shortcutHost) {
-    shortcutRoot?.unmount();
-    shortcutHost = host;
-    shortcutRoot = host ? createRoot(host) : undefined;
-    shortcutRoot?.render(<DashboardShortcuts />);
-  }
   const current = new Set(document.querySelectorAll(selector));
   for (const [surface, { host, root }] of surfaces) {
     if (current.has(surface)) continue;

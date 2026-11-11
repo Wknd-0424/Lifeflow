@@ -9,14 +9,12 @@
     "test": "node --test",
     "postinstall": "node scripts/prepare-browser-assets.cjs && npm run build:glass",
     "build:glass": "esbuild liquid-glass=components/liquid-glass-entry.tsx dashboard-liquid-glass=components/dashboard-liquid-glass.tsx --bundle --splitting --minify --jsx=automatic --format=esm --outdir=public/vendor --chunk-names=liquid-glass-shared && tailwindcss -i components/liquid-glass.css -o public/vendor/liquid-glass.css --minify",
-    "typecheck:glass": "tsc --noEmit --strict --allowJs --jsx react-jsx --module esnext --moduleResolution bundler --target es2022 components/liquid-glass-entry.tsx components/dashboard-liquid-glass.tsx"
+    "typecheck:glass": "tsc --noEmit --strict --jsx react-jsx --module esnext --moduleResolution bundler --target es2022 components/liquid-glass-entry.tsx components/dashboard-liquid-glass.tsx"
   },
   "engines": {
     "node": ">=24"
   },
   "dependencies": {
-    "@hugeicons/core-free-icons": "^4.4.0",
-    "@hugeicons/react": "^1.1.10",
     "clsx": "^2.1.1",
     "motion": "^14.12.0",
     "pg": "^8.23.1",

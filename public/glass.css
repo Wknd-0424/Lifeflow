@@ -380,10 +380,6 @@ tr:has(.animate-vital.urgent) .table-action[data-fulfill] { color: #ff9cac; }
   .dashboard-liquid-surface[data-refract="false"] { background-color: #12131a; }
 }
 
-.dashboard-shortcuts { padding: 16px; }
-@media (max-width: 900px) {
-  .dashboard-shortcuts { order: -3; }
-}
 
 /* Static glass avoids live backdrop sampling beneath moving particles. */
 :is(.panel, .stat, .glass-widget, .blood-card, .blood-card.low) {
