@@ -1,0 +1,50 @@
+[
+  {
+    "source": "Sample inventory #9",
+    "group": "A+",
+    "units": 65,
+    "expiresInDays": 18
+  },
+  {
+    "source": "Sample inventory #2",
+    "group": "A-",
+    "units": 50,
+    "expiresInDays": 4
+  },
+  {
+    "source": "Sample inventory #8",
+    "group": "B+",
+    "units": 60,
+    "expiresInDays": 22
+  },
+  {
+    "source": "Sample inventory #3",
+    "group": "B-",
+    "units": 37,
+    "expiresInDays": 3
+  },
+  {
+    "source": "Sample inventory #41",
+    "group": "AB+",
+    "units": 63,
+    "expiresInDays": 14
+  },
+  {
+    "source": "Sample inventory #7",
+    "group": "AB-",
+    "units": 66,
+    "expiresInDays": 6
+  },
+  {
+    "source": "Sample inventory #1",
+    "group": "O+",
+    "units": 46,
+    "expiresInDays": 25
+  },
+  {
+    "source": "Sample inventory #48",
+    "group": "O-",
+    "units": 57,
+    "expiresInDays": 2
+  }
+]

@@ -144,3 +144,5 @@ The cloud API uses `lib/postgres-store.js`. The local `npm start` command contin
 `npm test` covers the local allocation rules and cloud input validation. Live deployment verification passed: Supabase reads, donation creation, hospital requests, concurrent fulfillment, duplicate-dispatch prevention, and persistent rereads.
 
 [View all five output screenshots](docs/images/output-screenshots/).
+
+[Sample dataset and setup](docs/sample-data/README.md)

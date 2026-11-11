@@ -28,10 +28,14 @@ DO $$
 BEGIN
  IF NOT EXISTS(SELECT 1 FROM public.settings WHERE key='seeded') THEN
   INSERT INTO public.batches(donor,blood_group,units,collected,expires) VALUES
-   ('Campus drive A','A+',24,current_date-12,current_date+18),('Campus drive B','A-',8,current_date-12,current_date+4),
-   ('Campus drive C','B+',18,current_date-12,current_date+22),('Campus drive D','B-',5,current_date-12,current_date+3),
-   ('Campus drive E','AB+',12,current_date-12,current_date+14),('Campus drive F','AB-',3,current_date-12,current_date+6),
-   ('Campus drive G','O+',32,current_date-12,current_date+25),('Campus drive H','O-',7,current_date-12,current_date+2);
+   ('Sample inventory #9','A+',65,current_date-12,current_date+18),
+   ('Sample inventory #2','A-',50,current_date-12,current_date+4),
+   ('Sample inventory #8','B+',60,current_date-12,current_date+22),
+   ('Sample inventory #3','B-',37,current_date-12,current_date+3),
+   ('Sample inventory #41','AB+',63,current_date-12,current_date+14),
+   ('Sample inventory #7','AB-',66,current_date-12,current_date+6),
+   ('Sample inventory #1','O+',46,current_date-12,current_date+25),
+   ('Sample inventory #48','O-',57,current_date-12,current_date+2);
   INSERT INTO public.requests(hospital,contact,blood_group,units,priority) VALUES
    ('City General Hospital','Emergency desk','O+',6,'Urgent'),('Community Hospital','Blood bank desk','A+',4,'Normal');
   INSERT INTO public.activity(description,kind) VALUES ('Demo inventory loaded. Ready for your first donation.','system');

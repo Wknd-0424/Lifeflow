@@ -1,0 +1,51 @@
+id,name,location,critical_status
+1,Vector Holdings,Bangkok,true
+2,Pine Analytics,Cape Town,true
+3,Ember Industries,Munich,false
+4,Tidal Studio,Buenos Aires,false
+5,Meridian Media,Cape Town,true
+6,Sable Media,Bangkok,false
+7,Atlas Holdings,Lisbon,false
+8,Summit Health,Berlin,false
+9,Atlas Studio,Austin,true
+10,Atlas Software,Edinburgh,true
+11,Cobalt Media,Ankara,false
+12,Cedar Industries,Amsterdam,false
+13,Beacon Holdings,San Diego,true
+14,Forge Software,,false
+15,Blue Logistics,,false
+16,Beacon Labs,Munich,false
+17,Vector Energy,Denver,true
+18,Cobalt Industries,Santiago,true
+19,Crest Analytics,,false
+20,Keystone Group,Nairobi,false
+21,Sable Partners,,true
+22,Sable Logistics,Austin,false
+23,Acme Health,,false
+24,Oak Analytics,Izmir,true
+25,North Media,Vancouver,false
+26,Orbit Health,Lyon,false
+27,Bright Digital,,false
+28,Beacon Partners,Lima,false
+29,North Group,Madrid,true
+30,Willow Works,Munich,false
+31,Lumen Digital,,false
+32,Compass Group,Montreal,false
+33,Forge Foods,Bangkok,true
+34,Clear Works,Manchester,true
+35,Orbit Partners,Denver,false
+36,Meridian Group,Munich,false
+37,North Digital,Vancouver,true
+38,Pine Industries,,false
+39,Acme Labs,Munich,true
+40,Juniper Digital,Sydney,false
+41,Pine Industries,Auckland,false
+42,Tidal Partners,Athens,true
+43,Clear Foods,Warsaw,false
+44,Bright Health,Buenos Aires,true
+45,Harbor Studio,Mexico City,true
+46,North Foods,Bucharest,true
+47,Iron Health,Stockholm,false
+48,Pine Foods,Mexico City,false
+49,Oak Health,,true
+50,Compass Partners,,true
