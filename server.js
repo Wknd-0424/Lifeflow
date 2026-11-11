@@ -3,11 +3,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { createStore } = require('./lib/store');
 const store = createStore(process.env.DB_PATH || path.join(__dirname,'data','bloodbank.sqlite'));
-const assets = { '/':'index.html', '/index.html':'index.html', '/lifeflow-mark.svg':'lifeflow-mark.svg', '/app.js':'app.js', '/swarm-cursor.js':'swarm-cursor.js', '/styles.css':'styles.css', '/glass.css':'glass.css', '/hero-particles.js':'hero-particles.js', '/vendor/three.module.js':'vendor/three.module.js', '/vendor/three.core.js':'vendor/three.core.js' };
-const mime = { '.svg':'image/svg+xml', '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8' };
+const assets = { '/':'index.html', '/index.html':'index.html', '/liquid-glass.html':'liquid-glass.html', '/liquid-glass-office.webp':'liquid-glass-office.webp', '/vendor/liquid-glass.js':'vendor/liquid-glass.js', '/vendor/liquid-glass.css':'vendor/liquid-glass.css', '/lifeflow-mark.svg':'lifeflow-mark.svg', '/app.js':'app.js', '/swarm-cursor.js':'swarm-cursor.js', '/styles.css':'styles.css', '/glass.css':'glass.css', '/hero-particles.js':'hero-particles.js', '/vendor/three.module.js':'vendor/three.module.js', '/vendor/three.core.js':'vendor/three.core.js' };
+const mime = { '.webp':'image/webp', '.svg':'image/svg+xml', '.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8' };
 const server = http.createServer(async(req,res)=>{
   res.setHeader('X-Content-Type-Options','nosniff');
-  res.setHeader('Content-Security-Policy',"default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; frame-ancestors 'none'; form-action 'self'");
+  res.setHeader('Content-Security-Policy',"default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data: blob:; frame-ancestors 'none'; form-action 'self'");
   const url = new URL(req.url,'http://localhost');
   const json=(status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
   try {

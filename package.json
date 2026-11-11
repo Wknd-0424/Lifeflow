@@ -7,15 +7,28 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "node --test",
-    "postinstall": "node scripts/prepare-browser-assets.cjs"
+    "postinstall": "node scripts/prepare-browser-assets.cjs && npm run build:glass",
+    "build:glass": "esbuild components/liquid-glass-entry.tsx --bundle --minify --jsx=automatic --format=esm --outfile=public/vendor/liquid-glass.js && tailwindcss -i components/liquid-glass.css -o public/vendor/liquid-glass.css --minify",
+    "typecheck:glass": "tsc --noEmit --strict --jsx react-jsx --module esnext --moduleResolution bundler --target es2022 components/liquid-glass-entry.tsx"
   },
   "engines": {
     "node": ">=24"
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "motion": "^14.12.0",
     "pg": "^8.23.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwind-merge": "^3.7.0",
     "three": "0.187.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "esbuild": "^0.28.2",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2"
   }
 }
