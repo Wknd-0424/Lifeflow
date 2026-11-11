@@ -81,11 +81,13 @@ function mountParticleRibbon(canvas, hero) {
   const target = new THREE.Vector2();
   const tilt = new THREE.Vector2();
   let frame = 0;
+  let lastDraw = -Infinity;
+  let visible = true;
 
   function resize() {
     const { clientWidth: width, clientHeight: height } = canvas;
     if (!width || !height) return;
-    const dpr = THREE.MathUtils.clamp(devicePixelRatio || 1, 1, 2);
+    const dpr = THREE.MathUtils.clamp(devicePixelRatio || 1, 1, 1.25);
     const aspect = width / height;
     const halfWidth = Math.max(2.05, aspect * 0.95);
     camera.left = -halfWidth;
@@ -111,6 +113,9 @@ function mountParticleRibbon(canvas, hero) {
   }
 
   function animate(now) {
+    frame = requestAnimationFrame(animate);
+    if (now - lastDraw < 32) return;
+    lastDraw = now;
     const time = now / 1000;
     material.uniforms.time.value = time;
     const beat = Math.sin(time * Math.PI * 2 * 64 / 60);
@@ -119,12 +124,11 @@ function mountParticleRibbon(canvas, hero) {
     ribbon.rotation.x = tilt.y * 0.26;
     ribbon.rotation.y = tilt.x * 0.36;
     renderer.render(scene, camera);
-    frame = requestAnimationFrame(animate);
   }
 
   function syncAnimation() {
     cancelAnimationFrame(frame);
-    if (!motion.matches && !document.hidden) {
+    if (!motion.matches && !document.hidden && visible) {
       frame = requestAnimationFrame(animate);
       return;
     }
@@ -134,6 +138,11 @@ function mountParticleRibbon(canvas, hero) {
     renderer.render(scene, camera);
   }
 
+  const intersection = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    syncAnimation();
+  });
+  intersection.observe(hero);
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
   hero.addEventListener('pointermove', pointerMove);
@@ -146,6 +155,7 @@ function mountParticleRibbon(canvas, hero) {
   return () => {
     cancelAnimationFrame(frame);
     observer.disconnect();
+    intersection.disconnect();
     hero.removeEventListener('pointermove', pointerMove);
     hero.removeEventListener('pointerleave', resetTilt);
     motion.removeEventListener('change', syncAnimation);

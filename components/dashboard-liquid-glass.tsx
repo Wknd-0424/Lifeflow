@@ -3,7 +3,7 @@ import { LiquidGlass } from "./ui/liquid-glass";
 
 import { DashboardShortcuts } from "./dashboard-shortcuts.jsx";
 
-const selector = ".command-nav, .dashboard-hero, .panel, .stat, .glass-widget";
+const selector = ".command-nav";
 const surfaces = new Map<Element, { host: HTMLDivElement; root: Root }>();
 
 let shortcutHost: Element | null = null;

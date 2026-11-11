@@ -384,3 +384,11 @@ tr:has(.animate-vital.urgent) .table-action[data-fulfill] { color: #ff9cac; }
 @media (max-width: 900px) {
   .dashboard-shortcuts { order: -3; }
 }
+
+/* Static glass avoids live backdrop sampling beneath moving particles. */
+:is(.panel, .stat, .glass-widget, .blood-card, .blood-card.low) {
+  background: linear-gradient(145deg, #1d1d25e8, #12131aea);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.blood-card.low { background: linear-gradient(145deg, #2c211d, #171419); }
