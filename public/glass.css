@@ -352,3 +352,30 @@ tr:has(.animate-vital.urgent) .table-action[data-fulfill] { color: #ff9cac; }
 .command-nav .brand-icon img { display: block; width: 80%; height: 80%; }
 .command-nav .brand { color: #fff6f7; letter-spacing: -.035em; }
 .command-nav .brand small { color: #cbd5e1; letter-spacing: .09em; }
+
+/* Liquid Glass supplies the refraction layer; content stays above it. */
+:is(.panel, .stat, .glass-widget) {
+  position: relative;
+  isolation: isolate;
+  background: rgba(18, 19, 26, .54);
+  backdrop-filter: none;
+}
+.dashboard-liquid-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.dashboard-liquid-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.dashboard-liquid-surface[data-refract="false"] { background-color: #12131a52; }
+.command-nav.sidebar { isolation: isolate; backdrop-filter: none; background: #171210c2; }
+.dashboard-feature .dashboard-hero > .dashboard-liquid-layer { z-index: -1; position: absolute; }
+@media (prefers-reduced-transparency: reduce) {
+  .dashboard-liquid-surface[data-refract="false"] { background-color: #12131a; }
+}

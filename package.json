@@ -8,8 +8,8 @@
     "dev": "node --watch server.js",
     "test": "node --test",
     "postinstall": "node scripts/prepare-browser-assets.cjs && npm run build:glass",
-    "build:glass": "esbuild components/liquid-glass-entry.tsx --bundle --minify --jsx=automatic --format=esm --outfile=public/vendor/liquid-glass.js && tailwindcss -i components/liquid-glass.css -o public/vendor/liquid-glass.css --minify",
-    "typecheck:glass": "tsc --noEmit --strict --jsx react-jsx --module esnext --moduleResolution bundler --target es2022 components/liquid-glass-entry.tsx"
+    "build:glass": "esbuild liquid-glass=components/liquid-glass-entry.tsx dashboard-liquid-glass=components/dashboard-liquid-glass.tsx --bundle --splitting --minify --jsx=automatic --format=esm --outdir=public/vendor --chunk-names=liquid-glass-shared && tailwindcss -i components/liquid-glass.css -o public/vendor/liquid-glass.css --minify",
+    "typecheck:glass": "tsc --noEmit --strict --jsx react-jsx --module esnext --moduleResolution bundler --target es2022 components/liquid-glass-entry.tsx components/dashboard-liquid-glass.tsx"
   },
   "engines": {
     "node": ">=24"
